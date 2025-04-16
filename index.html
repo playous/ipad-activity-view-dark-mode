@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPad Activity View - Dark Mode</title>
+    <link rel="stylesheet" href="activity-view-dark.css">
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        /* Container styles */
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 834px; /* iPad width */
+            height: 600px;
+            border-radius: 20px;
+            overflow: hidden;
+            background-color: #1c1c1e; /* Dark background */
+        }
+        
+        /* Activity View styles */
+        .activity-view {
+            position: absolute;
+            width: 402px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* Popover and arrow */
+        .popover {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        
+        .arrow {
+            width: 20px;
+            height: 10px;
+            background-color: var(--dark-card-background);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+        
+        /* Panel UI */
+        .panel-ui {
+            border-radius: 13px;
+            overflow: hidden;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 20px 16px 7px;
+            border-bottom: 0.33px solid var(--dark-border);
+        }
+        
+        .thumbnail {
+            width: 60px;
+            height: 60px;
+            border-radius: 7.5px;
+            background-color: #2c2c2e;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .title-subtitle {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .title {
+            font-size: 15px;
+            font-weight: 400;
+            margin-bottom: 2px;
+        }
+        
+        .subtitle {
+            font-size: 13px;
+            font-weight: 400;
+        }
+        
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding-top: 11px;
+        }
+        
+        .close-button {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        /* Contacts Row */
+        .contacts-row {
+            display: flex;
+            gap: 26px;
+            padding: 21px 16px 28px;
+            border-bottom: 0.33px solid var(--dark-border);
+            overflow-x: auto;
+        }
+        
+        .contact {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #3a3a3c;
+            overflow: hidden;
+        }
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .contact-name {
+            font-size: 11px;
+            font-weight: 400;
+            text-align: center;
+        }
+        
+        .contact-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            background-color: #3a3a3c;
+            margin-top: 5px;
+        }
+        
+        /* App Icon Row */
+        .app-icon-row {
+            display: flex;
+            gap: 26px;
+            padding: 21px 16px 28px;
+            border-bottom: 0.33px solid var(--dark-border);
+            overflow-x: auto;
+        }
+        
+        .app {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            background-color: #3a3a3c;
+            overflow: hidden;
+        }
+        
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .app-name {
+            font-size: 11px;
+            font-weight: 400;
+            text-align: center;
+        }
+        
+        /* Actions */
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 0 16px;
+        }
+        
+        .action-group {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 11px 14px 16px;
+            border-bottom: 0.33px solid var(--dark-border);
+        }
+        
+        .action:last-child {
+            border-bottom: none;
+        }
+        
+        .action-title {
+            font-size: 17px;
+            font-weight: 400;
+        }
+        
+        .action-symbol {
+            font-size: 17px;
+            font-weight: 400;
+        }
+        
+        .edit-actions {
+            font-size: 17px;
+            font-weight: 400;
+            padding: 10px 0;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="activity-view">
+            <div class="popover">
+                <div class="arrow"></div>
+            </div>
+            
+            <div class="panel-ui">
+                <div class="material">
+                    <!-- Header -->
+                    <div class="header">
+                        <div class="thumbnail"></div>
+                        <div class="title-subtitle">
+                            <h2 class="title">Title</h2>
+                            <p class="subtitle">Subtitle 1</p>
+                            <div class="menu">
+                                <span class="menu-text">Location Included</span>
+                                <span class="menu-icon">􀆊</span>
+                            </div>
+                        </div>
+                        <div class="close-button">
+                            <span class="symbol">􀅾</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Contacts Row -->
+                    <div class="contacts-row">
+                        <div class="contact">
+                            <div class="avatar"></div>
+                            <span class="contact-name">Sandy Wilder Cheng</span>
+                            <div class="contact-icon"></div>
+                        </div>
+                        <div class="contact">
+                            <div class="avatar"></div>
+                            <span class="contact-name">Kevin Leong</span>
+                            <div class="contact-icon"></div>
+                        </div>
+                        <div class="contact">
+                            <div class="avatar">
+                                <div class="dual-avatar"></div>
+                            </div>
+                            <span class="contact-name">Sandy and Kevin</span>
+                            <div class="contact-icon"></div>
+                        </div>
+                        <div class="contact">
+                            <div class="avatar"></div>
+                            <span class="contact-name">Juliana Mejia</span>
+                            <div class="contact-icon"></div>
+                        </div>
+                        <div class="contact">
+                            <div class="avatar"></div>
+                            <span class="contact-name">Greg Apodaca</span>
+                            <div class="contact-icon"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- App Icon Row -->
+                    <div class="app-icon-row">
+                        <div class="app">
+                            <div class="app-icon"></div>
+                            <span class="app-name">AirDrop</span>
+                        </div>
+                        <div class="app">
+                            <div class="app-icon"></div>
+                            <span class="app-name">Messages</span>
+                        </div>
+                        <div class="app">
+                            <div class="app-icon"></div>
+                            <span class="app-name">Mail</span>
+                        </div>
+                        <div class="app">
+                            <div class="app-icon"></div>
+                            <span class="app-name">Notes</span>
+                        </div>
+                        <div class="app">
+                            <div class="app-icon"></div>
+                            <span class="app-name">Reminders</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="actions">
+                        <div class="action-group">
+                            <div class="action">
+                                <span class="action-title">Copy</span>
+                                <span class="action-symbol">􀉁</span>
+                            </div>
+                        </div>
+                        
+                        <div class="action-group">
+                            <div class="action">
+                                <span class="action-title">Add to Reading List</span>
+                                <span class="action-symbol">􀖆</span>
+                            </div>
+                            <div class="action">
+                                <span class="action-title">Add Bookmark</span>
+                                <span class="action-symbol">􀉚</span>
+                            </div>
+                            <div class="action">
+                                <span class="action-title">Add to Favorites</span>
+                                <span class="action-symbol">􀋂</span>
+                            </div>
+                            <div class="action">
+                                <span class="action-title">Find on Page</span>
+                                <span class="action-symbol">􀊫</span>
+                            </div>
+                            <div class="action">
+                                <span class="action-title">Add to Home Screen</span>
+                                <span class="action-symbol">􀑍</span>
+                            </div>
+                        </div>
+                        
+                        <div class="action-group">
+                            <div class="action">
+                                <span class="action-title">Markup</span>
+                                <span class="action-symbol">􀉥</span>
+                            </div>
+                            <div class="action">
+                                <span class="action-title">Print</span>
+                                <span class="action-symbol">􀎚</span>
+                            </div>
+                        </div>
+                        
+                        <div class="edit-actions">Edit Actions...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
