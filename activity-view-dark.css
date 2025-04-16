@@ -1,0 +1,143 @@
+/* Dark Mode Theme for iPad Activity View */
+
+:root {
+  /* Dark mode color palette */
+  --dark-background: #1c1c1e;
+  --dark-card-background: rgba(30, 30, 32, 0.97);
+  --dark-surface: #2c2c2e;
+  --dark-border: rgba(84, 84, 86, 0.3);
+  --dark-text-primary: #ffffff;
+  --dark-text-secondary: rgba(235, 235, 245, 0.6);
+  --dark-text-tertiary: rgba(235, 235, 245, 0.3);
+  --dark-divider: rgba(84, 84, 86, 0.3);
+  --dark-button-background: rgba(56, 56, 58, 0.3);
+  --dark-accent: #0a84ff; /* Blue accent color */
+  --dark-popover-blur: blur(50px);
+  --dark-shadow: 0px 10px 100px 0px rgba(0, 0, 0, 0.5);
+  
+  /* Override default light mode colors */
+  --background: var(--dark-background);
+  --card-background: var(--dark-card-background);
+  --text-primary: var(--dark-text-primary);
+  --text-secondary: var(--dark-text-secondary);
+  --border: var(--dark-border);
+  --accent: var(--dark-accent);
+}
+
+/* Main container */
+.activity-view {
+  background-color: var(--dark-card-background);
+  color: var(--dark-text-primary);
+  border-radius: 13px;
+  box-shadow: var(--dark-shadow);
+  backdrop-filter: var(--dark-popover-blur);
+}
+
+/* Popover and background */
+.popover {
+  box-shadow: var(--dark-shadow);
+}
+
+.popover .background {
+  background-color: var(--dark-card-background);
+  backdrop-filter: var(--dark-popover-blur);
+}
+
+.material {
+  background-color: var(--dark-card-background);
+  backdrop-filter: var(--dark-popover-blur);
+}
+
+/* Header section */
+.header {
+  border-bottom-color: var(--dark-border);
+}
+
+.header .title {
+  color: var(--dark-text-primary);
+}
+
+.header .subtitle {
+  color: var(--dark-text-secondary);
+}
+
+.header .menu {
+  background-color: transparent;
+}
+
+.header .menu-text {
+  color: var(--dark-text-primary);
+}
+
+.header .menu-icon {
+  color: var(--dark-text-tertiary);
+}
+
+/* Close Button */
+.close-button {
+  background-color: var(--dark-button-background);
+}
+
+.close-button .symbol {
+  color: var(--dark-text-secondary);
+}
+
+/* Contacts Row */
+.contacts-row {
+  border-bottom-color: var(--dark-border);
+}
+
+.contact .name {
+  color: var(--dark-text-primary);
+}
+
+.contact .avatar {
+  border: 1px solid var(--dark-border);
+}
+
+/* App Icon Row */
+.app-icon-row {
+  border-bottom-color: var(--dark-border);
+}
+
+.app .app-name {
+  color: var(--dark-text-primary);
+}
+
+/* Actions */
+.action-group {
+  background-color: transparent;
+  border-radius: 10px;
+}
+
+.action {
+  border-bottom: 0.33px solid var(--dark-border);
+}
+
+.action .title {
+  color: var(--dark-text-primary);
+}
+
+.action .symbol {
+  color: var(--dark-text-primary);
+}
+
+.action-group:last-child .action:last-child {
+  border-bottom: none;
+}
+
+/* Edit Actions link */
+.edit-actions {
+  color: var(--dark-accent);
+}
+
+/* Ensure all icons maintain visibility in dark mode */
+.icon {
+  background-color: transparent;
+}
+
+/* Improve contrast for thumbnail images in dark mode */
+.thumbnail {
+  border: 1px solid var(--dark-border);
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.3);
+}
